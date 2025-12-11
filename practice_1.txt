@@ -1,0 +1,33 @@
+Where is the third highest average temperature?
+
+Using dense rank
+SELECT Annual_Average_Temperature_Global
+  FROM
+  (SELECT
+  Year,
+  Measurement_Region,
+  Annual_Average_Temperature_Global,
+  DENSE_RANK() OVER (ORDER BY Annual_Average_Temperature_Global DESC) AS RNK
+  FROM john_snow_labs_climate.climate.nasa_temperature_anomalies_by_latitude_bands_time_series_1880_2018) T
+  WHERE RNK = 3
+
+using limit offset 
+SELECT
+  Year,
+  Measurement_Region,
+  Annual_Average_Temperature_Global
+  FROM john_snow_labs_climate.climate.nasa_temperature_anomalies_by_latitude_bands_time_series_1880_2018
+  ORDER BY Annual_Average_Temperature_Global DESC
+  LIMIT 1 OFFSET 2
+
+Extract the specific brands whose products are higher than average final price.
+
+SELECT FINAL_PRICE,
+AVG_PRICE
+FROM
+(SELECT timestamp,
+BRAND,
+FINAL_PRICE,
+AVG(FINAL_PRICE)  OVER (PARTITION BY BRAND) AS AVG_PRICE
+FROM bright_data_amazon_best_seller_products_reviews_products_dataset.datasets.amazon_best_seller_products) T
+WHERE FINAL_PRICE > AVG_PRICE;
