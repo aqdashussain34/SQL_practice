@@ -31,3 +31,5 @@ FINAL_PRICE,
 AVG(FINAL_PRICE)  OVER (PARTITION BY BRAND) AS AVG_PRICE
 FROM bright_data_amazon_best_seller_products_reviews_products_dataset.datasets.amazon_best_seller_products) T
 WHERE FINAL_PRICE > AVG_PRICE;
+
+#done 
